@@ -1,8 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { Archive, Flag, Github } from "lucide-react";
-import React from "react";
+import { Archive, FileInput, Flag, Github } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-function SideaNavBottom() {
+function SideaNavBottom({ onFileCreate }: any) {
+  const [fileName, setFileName] = useState("");
   const menuList = [
     {
       id: 1,
@@ -34,10 +46,37 @@ function SideaNavBottom() {
           {menu.name}
         </h2>
       ))}
-
-      <Button className="w-full bg-blue-500 hover:bg-blue-700  justify-start mt-3">
-        New File
-      </Button>
+      <Dialog>
+        <DialogTrigger className="w-full" asChild>
+          <Button className="w-full bg-blue-500 hover:bg-blue-700  justify-start mt-3">
+            New File
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create new file</DialogTitle>
+            <DialogDescription>
+              <Input
+                onChange={(e) => setFileName(e.target.value)}
+                placeholder="Enter file name"
+                className="mt-5"
+              />
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button
+                disabled={!(fileName && fileName.length > 0)}
+                type="button"
+                className="bg-blue-600 hover:bg-blue-700"
+                onClick={() => onFileCreate(fileName)}
+              >
+                Create
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <div className="h-4 w-full bg-gray-200 rounded-lg mt-5">
         <div className="h-4 w-[40%] rounded-lg bg-blue-600"></div>
