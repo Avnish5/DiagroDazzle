@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import SideNavTop, { Team } from "./SideNavTop";
@@ -7,13 +7,14 @@ import SideaNavBottom from "./SideaNavBottom";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import { FileListContext } from "@/app/_context/FileListContext";
 function SideNav() {
   const { user } = useKindeBrowserClient();
   const [activeTeam, setActiveTeam] = useState<Team>();
   const [totalFiles, setTotalFies] = useState<Number>();
   const createFile = useMutation(api.files.createFile);
   const convex = useConvex();
-
+  const { fileList_, setFileList_ } = useContext(FileListContext);
   useEffect(() => {
     activeTeam && getFiles();
   }, [activeTeam]);
@@ -45,6 +46,7 @@ function SideNav() {
       teamId: activeTeam?._id,
     });
     setTotalFies(result?.length);
+    setFileList_(result);
   };
   return (
     <div className="flex flex-col bg-gray-100 h-screen fixed w-72 border-r p-6">
