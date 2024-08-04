@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-function SideaNavBottom({ onFileCreate }: any) {
+function SideaNavBottom({ onFileCreate, totalFiles }: any) {
   const [fileName, setFileName] = useState("");
   const menuList = [
     {
@@ -79,11 +79,15 @@ function SideaNavBottom({ onFileCreate }: any) {
       </Dialog>
 
       <div className="h-4 w-full bg-gray-200 rounded-lg mt-5">
-        <div className="h-4 w-[40%] rounded-lg bg-blue-600"></div>
+        <div
+          className={`h-4  rounded-lg
+           bg-blue-600`}
+          style={{ width: `${(totalFiles / 5) * 100}%` }}
+        ></div>
       </div>
 
       <h2 className="text-[12px] mt-3">
-        <strong>1</strong> out of <strong>5</strong> files used
+        <strong>{totalFiles}</strong> out of <strong>5</strong> files used
       </h2>
       <h2 className="text-[12px] mt-1">
         Upgrade your plan for unlimited access
