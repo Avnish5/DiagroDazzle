@@ -63,3 +63,13 @@ export const getFileById = query({
     return result;
   },
 });
+
+export const deleteFileById = mutation({
+  args: {
+    _id: v.id("files"),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db.delete(args._id);
+    return result;
+  },
+});

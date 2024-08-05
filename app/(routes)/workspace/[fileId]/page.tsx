@@ -6,20 +6,30 @@ import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
+import { notFound, useRouter } from "next/navigation";
 
 function Workspace({ params }: any) {
   const convex = useConvex();
   const [triggerSave, setTriggerSave] = useState(false);
   const [fileData, setFileData] = useState<FILE | any>();
+  const router = useRouter();
 
   useEffect(() => {
     params.fileId && getFileData();
   }, [params.fileId]);
 
   const getFileData = async () => {
-    const result = await convex.query(api.files.getFileById, {
-      _id: params.fileId,
-    });
+    const result = await convex
+      .query(api.files.getFileById, {
+        _id: params.fileId,
+      })
+      .catch(() => {
+        router.push("/workspace/not-found");
+        console.log("error");
+      });
+
+    console.log(result);
+
     setFileData(result);
     console.log(result);
   };

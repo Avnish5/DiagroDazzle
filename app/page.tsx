@@ -6,7 +6,7 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Home() {
   const { user } = useKindeBrowserClient();
-  console.log(user);
+
   return (
     <div>
       <Header />

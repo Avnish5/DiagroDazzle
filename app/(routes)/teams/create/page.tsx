@@ -30,7 +30,7 @@ function CreateTeam() {
 
   return (
     <div className="px-6 md:px-16 my-16">
-      <Image src="/logo.png" alt={"logo"} height={200} width={200} />
+      <Image src="/afulllogo.png" alt={"logo"} height={150} width={150} />
 
       <div className="flex flex-col items-center mt-8">
         <h2 className="font-bold text-[40px] py-3">
