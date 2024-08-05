@@ -9,6 +9,7 @@ import Paragraph from "@editorjs/paragraph";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import { FILE } from "../../dashboard/_components/FileList";
 
 const rawDataOutput = {
   time: 1550476186479,
@@ -32,12 +33,20 @@ const rawDataOutput = {
   version: "2.8.1",
 };
 
-function Editor({ onSaveTrigger, fileId }: any) {
+function Editor({
+  onSaveTrigger,
+  fileId,
+  fileData,
+}: {
+  onSaveTrigger: any;
+  fileId: any;
+  fileData: FILE;
+}) {
   const ref = useRef<EditorJS>();
   const updateDocument = useMutation(api.files.updateDocument);
   useEffect(() => {
-    initEdior();
-  }, []);
+    fileData && initEdior();
+  }, [fileData]);
 
   useEffect(() => {
     console.log("value:", onSaveTrigger);
@@ -68,7 +77,7 @@ function Editor({ onSaveTrigger, fileId }: any) {
         },
       },
       holder: "editorjs",
-      data: rawDataOutput,
+      data: fileData.document ? JSON.parse(fileData.document) : rawDataOutput,
     });
 
     ref.current = editor;

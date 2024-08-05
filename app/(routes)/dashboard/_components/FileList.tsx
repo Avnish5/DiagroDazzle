@@ -12,7 +12,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
-function FileList() {
+export interface FILE {
+  archive: boolean;
+  createdBy: string;
+  document: string;
+  fileName: string;
+  teamId: string;
+  whiteBoard: string;
+  _creationTime: number;
+  _id: string;
+}
+
+export function FileList() {
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const router = useRouter();
@@ -43,7 +54,7 @@ function FileList() {
 
           <tbody className="divide-y divide-gray-200">
             {fileList &&
-              fileList.map((file, index) => (
+              fileList.map((file: FILE, index: number) => (
                 <tr
                   className="odd:bg-gray-50 cursor-pointer"
                   onClick={() => router.push("/workspace/" + file._id)}

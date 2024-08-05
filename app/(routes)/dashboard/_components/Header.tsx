@@ -16,7 +16,7 @@ function Header() {
 
       <div>
         <Image
-          src={user?.picture}
+          src={user?.picture || "/logo.png"}
           alt="user-image"
           width={30}
           height={30}
