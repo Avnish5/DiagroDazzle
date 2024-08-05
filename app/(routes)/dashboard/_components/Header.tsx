@@ -1,6 +1,9 @@
 import { Input } from "@/components/ui/input";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { Search, Send } from "lucide-react";
+import {
+  LogoutLink,
+  useKindeBrowserClient,
+} from "@kinde-oss/kinde-auth-nextjs";
+import { LogOut, Search, Send } from "lucide-react";
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -28,6 +31,13 @@ function Header() {
         <Send className="h-4 w-4" />
         Invite
       </Button>
+
+      <LogoutLink>
+        <Button className="flex gap-2 text-sm h-8 bg-black hover:bg-blue-700">
+          <LogOut className="h-4 w-4" />
+          Logout
+        </Button>
+      </LogoutLink>
     </div>
   );
 }
