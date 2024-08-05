@@ -6,6 +6,9 @@ import List from "@editorjs/list";
 import Checklist from "@editorjs/checklist";
 import ImageTool from "@editorjs/image";
 import Paragraph from "@editorjs/paragraph";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 const rawDataOutput = {
   time: 1550476186479,
@@ -29,11 +32,17 @@ const rawDataOutput = {
   version: "2.8.1",
 };
 
-function Editor() {
+function Editor({ onSaveTrigger, fileId }: any) {
   const ref = useRef<EditorJS>();
+  const updateDocument = useMutation(api.files.updateDocument);
   useEffect(() => {
     initEdior();
-  });
+  }, []);
+
+  useEffect(() => {
+    console.log("value:", onSaveTrigger);
+    onSaveTrigger && onSaveDocument();
+  }, [onSaveTrigger]);
 
   const initEdior = () => {
     const editor = new EditorJS({
@@ -63,6 +72,30 @@ function Editor() {
     });
 
     ref.current = editor;
+  };
+
+  const onSaveDocument = () => {
+    if (ref.current) {
+      ref.current
+        .save()
+        .then((outputData) => {
+          updateDocument({
+            _id: fileId,
+            document: JSON.stringify(outputData),
+          }).then(
+            (resp) => {
+              toast("Document updated");
+            },
+            (e) => {
+              toast("Server error");
+            }
+          );
+        })
+
+        .catch((error) => {
+          console.log("Saving failed: ", error);
+        });
+    }
   };
   return (
     <div>
