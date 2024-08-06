@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/dialog";
 
 import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export interface FILE {
   archive: boolean;
@@ -35,6 +37,7 @@ export interface FILE {
 export function FileList({ searchQuery }: any) {
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
+  const deleteFileById = useMutation(api.files.deleteFileById);
   const router = useRouter();
   useEffect(() => {
     fileList_ && setFileList(fileList_);
@@ -49,8 +52,12 @@ export function FileList({ searchQuery }: any) {
       )
     : fileList;
 
-  const deleteFile = (k) => {
-    console.log(k);
+  const deleteFile = (id) => {
+    deleteFileById({
+      _id: id,
+    }).then((resp) => {
+      console.log(resp);
+    });
   };
 
   return (
@@ -114,7 +121,7 @@ export function FileList({ searchQuery }: any) {
                         </DropdownMenuItem>
 
                         <DropdownMenuItem
-                          onClick={deleteFile(file._id)}
+                          onClick={() => deleteFile(file._id)}
                           className="gap-3 cursor-pointer"
                         >
                           {/* <p onClick={deleteFile(file._id)}> */}
