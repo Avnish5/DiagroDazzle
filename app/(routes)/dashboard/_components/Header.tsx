@@ -8,13 +8,17 @@ import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-function Header() {
+function Header({ setSearchQuery }: any) {
   const { user } = useKindeBrowserClient();
+  
+  const handleSearch = (e:any) => {
+    setSearchQuery(e.target.value);
+  };
   return (
     <div className="flex justify-end w-full items-center gap-2">
       <div className="flex gap-2 items-center border rounded-md p-1">
         <Search className="w-4 h-4" />
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="Search" onChange={handleSearch} />
       </div>
 
       <div>

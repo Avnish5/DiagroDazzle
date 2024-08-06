@@ -6,8 +6,8 @@ import {
   useKindeBrowserClient,
 } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation, useQuery } from "convex/react";
-import React, { useEffect } from "react";
-import Header from "./_components/Header";
+import React, { useEffect, useState } from "react";
+import Header, { search } from "./_components/Header";
 import FileList from "./_components/FileList";
 
 function Dashboard() {
@@ -34,11 +34,11 @@ function Dashboard() {
       });
     }
   };
-
+  const [searchQuery, setSearchQuery] = useState("");
   return (
     <div className="p-8">
-      <Header />
-      <FileList />
+      <Header setSearchQuery={setSearchQuery} />
+      <FileList searchQuery={searchQuery}/>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Archive, FileInput, Flag, Github } from "lucide-react";
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   Dialog,
   DialogClose,
@@ -27,7 +28,7 @@ function SideaNavBottom({ onFileCreate, totalFiles }: any) {
     {
       id: 2,
       name: "Github",
-      path: "",
+      path: "https://github.com/Avnish5/DiagroDazzle",
       icon: Github,
     },
     {
@@ -45,7 +46,7 @@ function SideaNavBottom({ onFileCreate, totalFiles }: any) {
           className="flex gap-2 p-2 px-2 text-[14px] hover:bg-gray-200 rounded-md cursor-pointer"
         >
           <menu.icon className="h-5 w-5" />
-          {menu.name}
+          {<Link href={menu.path}>{menu.name}</Link>}
         </h2>
       ))}
       <Dialog>
