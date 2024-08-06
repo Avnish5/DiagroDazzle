@@ -16,6 +16,10 @@ export async function middleware(request: NextRequest) {
 }
 
 // See "Matching Paths" below to learn more
+// export const config = {
+//   matcher: ["/dashboard"],
+// };
+
 export const config = {
-  matcher: ["/dashboard"],
+  matcher: ["/dashboard","/workspace/*","/teams/*"],
 };
