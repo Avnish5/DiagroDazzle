@@ -21,5 +21,5 @@ export async function middleware(request: NextRequest) {
 // };
 
 export const config = {
-  matcher: ["/dashboard","/workspace","/teams/create"],
+  matcher: ["/dashboard","/workspace/:path*","/teams/:path*"],
 };
