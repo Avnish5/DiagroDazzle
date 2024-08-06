@@ -49,6 +49,10 @@ export function FileList({ searchQuery }: any) {
       )
     : fileList;
 
+  const deleteFile = (k) => {
+    console.log(k);
+  };
+
   return (
     <div className="mt-11">
       <div className="overflow-x-auto">
@@ -73,7 +77,7 @@ export function FileList({ searchQuery }: any) {
           <tbody className="divide-y divide-gray-200">
             {filteredFiles &&
               filteredFiles.map((file: FILE, index: number) => (
-                <tr className="odd:bg-gray-50 cursor-pointer">
+                <tr key={index} className="odd:bg-gray-50 cursor-pointer">
                   <td
                     className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
                     onClick={() => router.push("/workspace/" + file._id)}
@@ -109,10 +113,14 @@ export function FileList({ searchQuery }: any) {
                           Archive
                         </DropdownMenuItem>
 
-                        {/* <DropdownMenuItem className="gap-3 cursor-pointer">
+                        <DropdownMenuItem
+                          onClick={deleteFile(file._id)}
+                          className="gap-3 cursor-pointer"
+                        >
+                          {/* <p onClick={deleteFile(file._id)}> */}
                           <Delete className="h-4 w-4" />
                           Delete
-                        </DropdownMenuItem> */}
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </td>
