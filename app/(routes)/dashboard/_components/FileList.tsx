@@ -20,8 +20,9 @@ import {
 } from "@/components/ui/dialog";
 
 import { useRouter } from "next/navigation";
-import { useMutation } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 export interface FILE {
   archive: boolean;
@@ -38,6 +39,8 @@ export function FileList({ searchQuery }: any) {
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const deleteFileById = useMutation(api.files.deleteFileById);
+  const convex = useConvex();
+
   const router = useRouter();
   useEffect(() => {
     fileList_ && setFileList(fileList_);
@@ -52,14 +55,20 @@ export function FileList({ searchQuery }: any) {
       )
     : fileList;
 
-  const deleteFile = (id) => {
+  const deleteFile = async (id, teamId) => {
     deleteFileById({
       _id: id,
     }).then((resp) => {
-      console.log(resp);
+      const updatedFileList = fileList.filter((file: FILE) => file._id !== id);
+      setFileList(updatedFileList);
+      setFileList_(updatedFileList);
+      toast("File deleted successfully");
     });
   };
 
+  if (!filteredFiles || filteredFiles.length === 0) {
+    return <p>no files</p>; // Render nothing if file list is not available or empty
+  }
   return (
     <div className="mt-11">
       <div className="overflow-x-auto">
@@ -121,7 +130,7 @@ export function FileList({ searchQuery }: any) {
                         </DropdownMenuItem>
 
                         <DropdownMenuItem
-                          onClick={() => deleteFile(file._id)}
+                          onClick={() => deleteFile(file._id, file.teamId)}
                           className="gap-3 cursor-pointer"
                         >
                           {/* <p onClick={deleteFile(file._id)}> */}
