@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Archive, FileInput, Flag, Github } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import {
   Dialog,
@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Constant from "@/app/_constant.tsx/Constant";
 import PricingDialog from "./PricingDialog";
+import { FileListContext } from "@/app/_context/FileListContext";
 
 function SideaNavBottom({ onFileCreate, totalFiles }: any) {
   const [fileName, setFileName] = useState("");
@@ -38,6 +39,13 @@ function SideaNavBottom({ onFileCreate, totalFiles }: any) {
       icon: Archive,
     },
   ];
+  const { fileList_, setFileList_ } = useContext(FileListContext);
+
+  const archiveFiles = () => {
+    console.log("ff");
+    setFileList_(null);
+  };
+
   return (
     <div>
       {menuList.map((menu, index) => (
@@ -46,7 +54,11 @@ function SideaNavBottom({ onFileCreate, totalFiles }: any) {
           className="flex gap-2 p-2 px-2 text-[14px] hover:bg-gray-200 rounded-md cursor-pointer"
         >
           <menu.icon className="h-5 w-5" />
-          {<Link href={menu.path}>{menu.name}</Link>}
+          {
+            <Link href={menu.path} onClick={archiveFiles}>
+              {menu.name}
+            </Link>
+          }
         </h2>
       ))}
       <Dialog>

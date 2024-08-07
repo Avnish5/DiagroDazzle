@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FileListContext } from "@/app/_context/FileListContext";
 import moment from "moment";
-import { Archive, Delete, MoreHorizontalIcon } from "lucide-react";
+import { Archive, Delete, Loader2, MoreHorizontalIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,16 +58,30 @@ export function FileList({ searchQuery }: any) {
   const deleteFile = async (id, teamId) => {
     deleteFileById({
       _id: id,
-    }).then((resp) => {
-      const updatedFileList = fileList.filter((file: FILE) => file._id !== id);
-      setFileList(updatedFileList);
-      setFileList_(updatedFileList);
-      toast("File deleted successfully");
-    });
+    }).then(
+      (resp) => {
+        const updatedFileList = fileList.filter(
+          (file: FILE) => file._id !== id
+        );
+        setFileList(updatedFileList);
+        setFileList_(updatedFileList);
+        toast("File deleted successfully");
+      },
+      (e) => {
+        toast("Error while deleteing the file");
+      }
+    );
   };
 
-  if (!filteredFiles || filteredFiles.length === 0) {
-    return <p>no files</p>; // Render nothing if file list is not available or empty
+  if (!filteredFiles) {
+    return (
+      <div className="fixed  inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
+        <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+      // <div className="flex justify-center items-center h-screen ">
+      //   <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600 " />
+      // </div>
+    );
   }
   return (
     <div className="mt-11">
