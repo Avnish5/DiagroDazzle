@@ -15,5 +15,6 @@ In today’s fast-paced world, managing and visualizing complex information effi
 - **Convex**: The open-source backend for application builders, offering an all-in-one platform with thoughtful, product-centric APIs to manage your application's data and backend logic.
 - **Tailwind CSS**: A utility-first CSS framework for creating custom designs quickly, with a focus on responsive design and ease of use.
 - **TypeScript**: A superset of JavaScript that adds static types to the language, improving code quality and maintainability.
+- **Vercel**: A cloud platform for static sites and Serverless Functions, providing seamless deployment and hosting of your Next.js applications.
 
 
