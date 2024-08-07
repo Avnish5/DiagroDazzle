@@ -7,6 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
 import { notFound, useRouter } from "next/navigation";
+import Loader from "@/app/_components/Loader";
 
 function Workspace({ params }: any) {
   const convex = useConvex();
@@ -33,6 +34,10 @@ function Workspace({ params }: any) {
     setFileData(result);
     console.log(result);
   };
+
+  if (!fileData) {
+    return <Loader />;
+  }
   return (
     <div>
       <WorkspaceHeader onSave={() => setTriggerSave(!triggerSave)} />

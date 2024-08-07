@@ -23,6 +23,8 @@ import { useRouter } from "next/navigation";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import Loader from "@/app/_components/Loader";
+import EmptyTable from "./EmptyTable";
 
 export interface FILE {
   archive: boolean;
@@ -74,90 +76,87 @@ export function FileList({ searchQuery }: any) {
   };
 
   if (!filteredFiles) {
-    return (
-      <div className="fixed  inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
-        <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
-      </div>
-      // <div className="flex justify-center items-center h-screen ">
-      //   <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600 " />
-      // </div>
-    );
+    return <Loader />;
   }
   return (
     <div className="mt-11">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                File Name
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Created At
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Edited
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Author
-              </td>
-            </tr>
-          </thead>
+        {filteredFiles && filteredFiles.length > 0 ? (
+          <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            <thead className="ltr:text-left rtl:text-right">
+              <tr>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  File Name
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Created At
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Edited
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Author
+                </td>
+              </tr>
+            </thead>
 
-          <tbody className="divide-y divide-gray-200">
-            {filteredFiles &&
-              filteredFiles.map((file: FILE, index: number) => (
-                <tr key={index} className="odd:bg-gray-50 cursor-pointer">
-                  <td
-                    className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
-                    onClick={() => router.push("/workspace/" + file._id)}
-                  >
-                    {file.fileName}
-                  </td>
-                  <td
-                    className="whitespace-nowrap px-4 py-2 text-gray-700"
-                    onClick={() => router.push("/workspace/" + file._id)}
-                  >
-                    {moment(file._creationTime).format("DD MMM YYYY")}
-                  </td>
-                  <td
-                    className="whitespace-nowrap px-4 py-2 text-gray-700"
-                    onClick={() => router.push("/workspace/" + file._id)}
-                  >
-                    {moment(file._creationTime).format("DD MMM YYYY")}
-                  </td>
-                  <td
-                    className="whitespace-nowrap px-4 py-2 text-gray-700"
-                    onClick={() => router.push("/workspace/" + file._id)}
-                  >
-                    {file.createdBy}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <MoreHorizontalIcon />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem className="gap-3 cursor-pointer">
-                          <Archive className="h-4 w-4" />
-                          Archive
-                        </DropdownMenuItem>
+            <tbody className="divide-y divide-gray-200">
+              {filteredFiles &&
+                filteredFiles.map((file: FILE, index: number) => (
+                  <tr key={index} className="odd:bg-gray-50 cursor-pointer">
+                    <td
+                      className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                      onClick={() => router.push("/workspace/" + file._id)}
+                    >
+                      {file.fileName}
+                    </td>
+                    <td
+                      className="whitespace-nowrap px-4 py-2 text-gray-700"
+                      onClick={() => router.push("/workspace/" + file._id)}
+                    >
+                      {moment(file._creationTime).format("DD MMM YYYY")}
+                    </td>
+                    <td
+                      className="whitespace-nowrap px-4 py-2 text-gray-700"
+                      onClick={() => router.push("/workspace/" + file._id)}
+                    >
+                      {moment(file._creationTime).format("DD MMM YYYY")}
+                    </td>
+                    <td
+                      className="whitespace-nowrap px-4 py-2 text-gray-700"
+                      onClick={() => router.push("/workspace/" + file._id)}
+                    >
+                      {file.createdBy}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <MoreHorizontalIcon />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem className="gap-3 cursor-pointer">
+                            <Archive className="h-4 w-4" />
+                            Archive
+                          </DropdownMenuItem>
 
-                        <DropdownMenuItem
-                          onClick={() => deleteFile(file._id, file.teamId)}
-                          className="gap-3 cursor-pointer"
-                        >
-                          {/* <p onClick={deleteFile(file._id)}> */}
-                          <Delete className="h-4 w-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                          <DropdownMenuItem
+                            onClick={() => deleteFile(file._id, file.teamId)}
+                            className="gap-3 cursor-pointer"
+                          >
+                            {/* <p onClick={deleteFile(file._id)}> */}
+                            <Delete className="h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        ) : (
+          <EmptyTable />
+        )}
       </div>
     </div>
   );
