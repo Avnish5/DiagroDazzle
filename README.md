@@ -17,4 +17,8 @@ In today’s fast-paced world, managing and visualizing complex information effi
 - **TypeScript**: A superset of JavaScript that adds static types to the language, improving code quality and maintainability.
 - **Vercel**: A cloud platform for static sites and Serverless Functions, providing seamless deployment and hosting of your Next.js applications.
 
+## Screenshots
 
+To get a glimpse of the user interface and design of DiagroDazzle, please check out the screenshots available at the following link:
+
+**[View Screenshots](https://postimg.cc/gallery/wdV1sHR)**
